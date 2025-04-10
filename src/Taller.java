@@ -4,6 +4,8 @@ import java.util.Random;
 public class Taller {
     private static Scanner sc = new Scanner(System.in);
     private static Random rand = new Random();
+    private static int[][] matriz = null;
+
 
     public static void main(String[] args) {
         // TODO: Implementar la lógica inicial y llamada a los métodos necesarios.
@@ -20,7 +22,7 @@ public class Taller {
             if (opcion != -1) {
                 ejecutarOpcion(opcion);
             }
-        } while (opcion != 6);
+        } while (opcion != 4);
     }
 
     public static void mostrarOpciones() {
@@ -50,22 +52,30 @@ public class Taller {
     }
 
     public static void ejecutarOpcion(int opcion) {
-        // TODO: Implementar la lógica correspondiente a cada opción.
         switch (opcion) {
             case 1 -> {
-                int[][]matriz=crearMatriz();
-                matriz=llenarMatriz(matriz);
+                matriz = crearMatriz();
+                llenarMatriz(matriz);
             }
             case 2 -> leerFila();
-            case 3 -> System.out.println(" 2 ");
-            case 4 -> System.out.println("  Hasta luego...");
-            default -> System.out.println(" Opcion invalida...");
+            case 3 -> matrizCero(matriz);
+            case 4 -> System.out.println("Hasta luego...");
+            default -> System.out.println("Opción inválida...");
         }
     }
 
+    private static boolean matrizCero(int[][] matriz) {
+        boolean valido = false;
+        int filas = matriz.length;
+        int cols = matriz[0].length;
+        for (int i = 0; i < filas; i++) {
 
-
-
+            for (int j = 0; j < cols; j++) {
+                matriz[i][j] = rand.nextInt(10);
+            }
+        }
+        return valido;
+    }
 
     public static int[] validarDimensiones() {
         int filas = 0;
@@ -127,6 +137,40 @@ public class Taller {
     }
 
     public static void leerFila() {
+        existeMatriz(matriz);
+        System.out.print("Ingrese el número de la fila a ver (desde 0): ");
+        try {
+            int fila = Integer.parseInt(sc.nextLine());
+            if (fila >= 0 && fila < matriz.length) {
+                System.out.print("Fila " + fila + ": ");
+                for (int valor : matriz[fila]) {
+                    System.out.print(valor + " ");
+                }
+                System.out.println();
+            } else {
+                System.out.println("Número de fila fuera de rango.");
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Debe ingresar un número válido.");
+        }
+    }
+    public static void existeMatriz(int[][]matriz){
+        if (matriz == null) {
+            System.out.println("Primero debes crear una matriz (opción 1).");
+            return;
+        }
+    }
 
+    public static boolean tamañoFila(int[][]matriz){
+        boolean real=false;
+        try {
+            int fila = Integer.parseInt(sc.nextLine());
+            if (fila >= 0 && fila < matriz.length) {
+                real=true;
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Debe ingresar un número válido.");
+        }
+    return real;
     }
 }
