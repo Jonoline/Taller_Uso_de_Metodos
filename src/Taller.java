@@ -77,7 +77,7 @@ public class Taller {
         }
 
         if (ceros > totalElementos / 2) {
-            System.out.println("La matriz ES de tipo cero (más de la mitad de los elementos son ceros).");
+            System.out.println("La matriz SI es de tipo cero (más de la mitad de los elementos son ceros).");
         } else {
             System.out.println("La matriz NO es de tipo cero.");
         }
@@ -142,16 +142,25 @@ public class Taller {
         }
     }
 
-    public static void leerFila(int[][]matriz) {
+    public static void leerFila(int[][] matriz) {
         if (!existeMatriz()) return;
+        int fila = validarFila(matriz); // ← recibimos el número de fila
 
+        System.out.print("Fila " + fila + ": ");
+        for (int valor : matriz[fila]) {
+            System.out.print(valor + " ");
+        }
+        System.out.println();
+    }
+
+    public static int validarFila(int[][] matriz) {
         int fila = -1;
         while (true) {
             try {
                 System.out.print("Ingrese el número de la fila a ver (desde 0): ");
                 fila = Integer.parseInt(sc.nextLine());
                 if (fila >= 0 && fila < matriz.length) {
-                    break;
+                    return fila; // ← devolvemos la fila válida
                 } else {
                     System.out.println("Número de fila fuera de rango.");
                 }
@@ -159,12 +168,6 @@ public class Taller {
                 System.out.println("Debe ingresar un número válido.");
             }
         }
-
-        System.out.print("Fila " + fila + ": ");
-        for (int valor : matriz[fila]) {
-            System.out.print(valor + " ");
-        }
-        System.out.println();
     }
 
     public static boolean existeMatriz() {
