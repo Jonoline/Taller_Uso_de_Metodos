@@ -26,7 +26,6 @@ public class Taller {
     }
 
     public static void mostrarOpciones() {
-        // TODO: Incluir los println con las opciones para el menú por consola.
         System.out.println("\n=============================");
         System.out.println("            Taller            ");
         System.out.println("      Opciones      ");
@@ -57,25 +56,33 @@ public class Taller {
                 matriz = crearMatriz();
                 llenarMatriz(matriz);
             }
-            case 2 -> leerFila();
+            case 2 -> leerFila(matriz);
             case 3 -> matrizCero(matriz);
             case 4 -> System.out.println("Hasta luego...");
             default -> System.out.println("Opción inválida...");
         }
     }
 
-    private static boolean matrizCero(int[][] matriz) {
-        boolean valido = false;
-        int filas = matriz.length;
-        int cols = matriz[0].length;
-        for (int i = 0; i < filas; i++) {
+    public static void matrizCero(int[][]matriz) {
+        if (!existeMatriz()) return;
+        int ceros = 0;
+        int totalElementos = matriz.length * matriz[0].length;
 
-            for (int j = 0; j < cols; j++) {
-                matriz[i][j] = rand.nextInt(10);
+        for (int[] fila : matriz) {
+            for (int val : fila) {
+                if (val == 0) {
+                    ceros++;
+                }
             }
         }
-        return valido;
+
+        if (ceros > totalElementos / 2) {
+            System.out.println("La matriz ES de tipo cero (más de la mitad de los elementos son ceros).");
+        } else {
+            System.out.println("La matriz NO es de tipo cero.");
+        }
     }
+
 
     public static int[] validarDimensiones() {
         int filas = 0;
@@ -124,53 +131,48 @@ public class Taller {
         leerMatriz(matriz);
         return matriz;
     }
+
     public static void leerMatriz(int[][] resultado) {
-        // TODO: Implementar impresión de cada elemento de la matriz.
-        // Imprimir el resultado
-        System.out.println("\nMatriz Resultante ");
-        for (int i = 0; i < resultado.length; i++) {
-            for (int j = 0; j < resultado[i].length; j++) {
-                System.out.print(resultado[i][j] + " ");
+        System.out.println("\nMatriz Resultante:");
+        for (int[] fila : resultado) {
+            for (int val : fila) {
+                System.out.print(val + " ");
             }
             System.out.println();
         }
     }
 
-    public static void leerFila() {
-        existeMatriz(matriz);
-        System.out.print("Ingrese el número de la fila a ver (desde 0): ");
-        try {
-            int fila = Integer.parseInt(sc.nextLine());
-            if (fila >= 0 && fila < matriz.length) {
-                System.out.print("Fila " + fila + ": ");
-                for (int valor : matriz[fila]) {
-                    System.out.print(valor + " ");
+    public static void leerFila(int[][]matriz) {
+        if (!existeMatriz()) return;
+
+        int fila = -1;
+        while (true) {
+            try {
+                System.out.print("Ingrese el número de la fila a ver (desde 0): ");
+                fila = Integer.parseInt(sc.nextLine());
+                if (fila >= 0 && fila < matriz.length) {
+                    break;
+                } else {
+                    System.out.println("Número de fila fuera de rango.");
                 }
-                System.out.println();
-            } else {
-                System.out.println("Número de fila fuera de rango.");
+            } catch (NumberFormatException e) {
+                System.out.println("Debe ingresar un número válido.");
             }
-        } catch (NumberFormatException e) {
-            System.out.println("Debe ingresar un número válido.");
         }
-    }
-    public static void existeMatriz(int[][]matriz){
-        if (matriz == null) {
-            System.out.println("Primero debes crear una matriz (opción 1).");
-            return;
+
+        System.out.print("Fila " + fila + ": ");
+        for (int valor : matriz[fila]) {
+            System.out.print(valor + " ");
         }
+        System.out.println();
     }
 
-    public static boolean tamañoFila(int[][]matriz){
-        boolean real=false;
-        try {
-            int fila = Integer.parseInt(sc.nextLine());
-            if (fila >= 0 && fila < matriz.length) {
-                real=true;
-            }
-        } catch (NumberFormatException e) {
-            System.out.println("Debe ingresar un número válido.");
+    public static boolean existeMatriz() {
+        if (matriz == null) {
+            System.out.println("Primero debes crear una matriz (opción 1).");
+            return false;
         }
-    return real;
+        return true;
     }
+
 }
